@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('your-background-image.jpg'); /* Add your image file path */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .fixed-box {
+            background-color: #fff; /* White background */
+            max-width: 600px; /* Increase the width */
+            max-height: 400px; /* Increase the height */
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a shadow effect */
+        }
+
+        .fixed-box h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        #deployment-details {
+            margin-top: 20px;
+        }
+
+        #back-button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="fixed-box">
+        <h1>Deployment Details</h1>
+        <div id="deployment-details">
+            <h2>Deployment Name: <span id="deployment-name"></span></h2>
+            <p>Deployment details will be displayed here.</p>
+            <button id="back-button">Back</button>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript to retrieve the deployment name from the query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const deploymentName = urlParams.get('name');
+
+        if (deploymentName) {
+            // Display the deployment name
+            document.getElementById('deployment-name').textContent = deploymentName;
+        }
+
+        // JavaScript to handle the "Back" button click
+        document.getElementById('back-button').addEventListener('click', () => {
+            // Navigate back to the home page (change the URL to the correct path)
+            window.location.href = 'home.html';
+        });
+    </script>
+</body>
+</html>

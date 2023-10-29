@@ -1,0 +1,130 @@
+<!-- deployment-params.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('your-background-image.jpg'); /* Add your image file path */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .fixed-box {
+            background-color: #fff; /* White background */
+            max-width: 600px; /* Increase the width */
+            max-height: 400px; /* Increase the height */
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a shadow effect */
+        }
+
+        .fixed-box h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        #deployment-params-form {
+            margin-top: 20px;
+        }
+
+        #deployment-params-form label {
+            display: block;
+            margin-bottom: 10px;
+            text-align: left;
+            font-size: 13px;
+        }
+
+        #deployment-params-form input {
+            width: auto;
+            padding: 5px;
+            margin-bottom: 10px;
+            margin-left: 10px;
+        }
+
+        #deployment-params-form button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top:20px;
+        }
+        .deployment-params-form-input-container{
+            display: flex;
+    align-items: center;
+    justify-content: space-between;
+        }
+       .cancel-button{
+            border: none!important;
+            background-color: #fff!important;
+            border:1px solid #dc3545!important;
+            color: #dc3545!important;
+            cursor: pointer;
+           
+        }
+        .cancel-button:hover{
+            background-color: #dc3545!important;
+            color: #fff!important;
+            border:1px solid #dc3545!important;
+            border: none;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="fixed-box">
+        <h1>Deployment Parameters</h1>
+        <form id="deployment-params-form">
+            <div class="deployment-params-form-input-container">
+                <label for="deployment-name">Deployment Name:</label>
+                <input type="text" id="deployment-name" name="deployment-name" required>
+            </div>
+           
+            <div class="deployment-params-form-input-container">
+                <label for="value1">Value 1:</label>
+                <input type="text" id="value1" name="value1" required>
+            </div>
+            
+            <div class="deployment-params-form-input-container">
+                <label for="value2">Value 2:</label>
+                <input type="text" id="value2" name="value2" required>
+            </div>
+           
+        <div class="deployment-params-form-input-container">
+            <label for="value3">Value 3:</label>
+            <input type="text" id="value3" name="value3" required>
+         </div>
+         <!-- <div class="deployment-params-form-input-container"></div> -->
+            <button type="submit">Deploy</button>
+            <button type="button" class="cancel-button" onclick="goBack()">Cancel</button>
+        </form>
+    </div>
+
+    <script>
+        // JavaScript to retrieve the deployment name from the query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        const deploymentName = urlParams.get('name');
+
+        if (deploymentName) {
+            // Display the deployment name
+            document.getElementById('deployment-name').value = deploymentName;
+        }
+
+        // JavaScript to handle the "Cancel" button click
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

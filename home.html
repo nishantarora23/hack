@@ -1,0 +1,218 @@
+<!-- home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: "myriad-pro",Helvetica,Arial,sans-serif;
+            background-image: url('your-background-image.jpg'); /* Add your image file path */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 600px; /* Increase the width */
+            text-align: center;
+            background-color: #fff; /* White background for the box */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Add a shadow effect */
+        }
+        .container button{
+            cursor: pointer;
+        }
+        .deployment-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .deployment-item {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .deployment-details {
+            display: none;
+        }
+
+        #start-new-deployment {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .deployment-params-button {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        #new-deployment-options #cancel-button{
+            border: none!important;
+            background-color: #fff!important;
+            border:1px solid #dc3545!important;
+            color: #dc3545!important;
+            cursor: pointer;
+           
+        }
+        #new-deployment-options #cancel-button:hover{
+            background-color: #dc3545!important;
+            color: #fff!important;
+            border:1px solid #dc3545!important;
+            border: none;
+        }
+        .container button,
+        .container input{
+         padding:8px;
+         border-radius: 5px;
+        }
+        .container .info-button{
+            border:none;
+            color: #fff;
+            background:#17a2b8;
+            border-color: #17a2b8;
+            min-width: 50px;
+        }
+        .container .delete-button{
+            border:none;
+            color: #fff;
+            background-color: #dc3545;
+            border-color: #dc3545;
+            min-width: 50px;
+        }
+       
+    
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Deployment Manager</h1>
+        <ul class="deployment-list" id="deployment-list">
+			<!-- Dynamic list items will be added here -->
+		</ul>
+        <button id="start-new-deployment">Start Deployment</button>
+        
+        <div class="deployment-details">
+            <h2>Deployment Details</h2>
+            <p id="deployment-details-text"></p>
+        </div>
+        
+        <div id="new-deployment-options" style="display: none;">
+            <h2>Start a New Deployment</h2>
+            <input type="text" id="deployment-name" placeholder="Deployment Name" required>
+            <br><br>
+            <button id="deploy-button" class="deployment-params-button">Deploy</button>
+            <button id="cancel-button">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        const startDeploymentButton = document.getElementById('start-new-deployment');
+        const deploymentOptions = document.getElementById('new-deployment-options');
+        const deploymentNameInput = document.getElementById('deployment-name');
+        const deployButton = document.getElementById('deploy-button');
+        const cancelButton = document.getElementById('cancel-button');
+        const deploymentList = document.getElementById('deployment-list');
+        const deploymentDetails = document.querySelector('.deployment-details');
+        const deploymentDetailsText = document.getElementById('deployment-details-text');
+
+        startDeploymentButton.addEventListener('click', () => {
+            // Show the deployment options
+            deploymentOptions.style.display = 'block';
+        });
+
+        deployButton.addEventListener('click', () => {
+            const deploymentName = deploymentNameInput.value.trim();
+            if (deploymentName === '') {
+                alert('Please fill in the Deployment Name field.');
+            } else {
+                // Pass the deployment name as a query parameter to the deployment parameters page
+                window.location.href = `deployment-params.html?name=${deploymentName}`;
+            }
+        });
+
+        cancelButton.addEventListener('click', () => {
+            // Cancel and hide the deployment options
+            deploymentOptions.style.display = 'none';
+        });
+
+        function getDeployments() {
+            // Simulate an API call to fetch the list of deployments
+            return ['Deployment 1', 'Deployment 2', 'Deployment 3'];
+        }
+
+        function addDeploymentToList(deployment) {
+            const listItem = document.createElement('li');
+            listItem.className = 'deployment-item';
+            listItem.textContent = deployment;
+
+            const infoButton = document.createElement('button');
+            infoButton.className = 'info-button';
+            infoButton.textContent = 'Info';
+
+            const deleteButton = document.createElement('button');
+            deleteButton.className = 'delete-button';
+            deleteButton.textContent = 'Delete';
+
+            listItem.appendChild(infoButton);
+            listItem.appendChild(deleteButton);
+            deploymentList.appendChild(listItem);
+
+            
+            infoButton.addEventListener('click', () => {
+				// Get the deployment name for the clicked item
+				const deploymentName = event.target.parentElement.textContent.split('Info')[0].trim();
+
+
+				// Navigate to the deployment-details page with the deployment name as a query parameter
+				window.location.href = `deployment-details.html?name=${deploymentName}`;
+			});
+
+            // Add event listener for the Delete button
+            deleteButton.addEventListener('click', () => {
+                const confirmation = confirm("Are you sure you want to delete this deployment?");
+                if (confirmation) {
+                    // Remove the list item from the DOM
+                    listItem.remove();
+                }
+            });
+        }
+
+        function fetchDeployments() {
+            // Simulate an API call to get the list of deployments
+            const deployments = getDeployments();
+
+            // Clear the existing list
+            deploymentList.innerHTML = '';
+
+            // Display the deployments in the list
+            deployments.forEach(deployment => {
+                addDeploymentToList(deployment);
+            });
+        }
+
+        // Fetch and display deployments when the page loads
+        fetchDeployments();
+    </script>
+</body>
+</html>
